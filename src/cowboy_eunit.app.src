@@ -1,12 +1,13 @@
 {application, cowboy_eunit,
  [
-  {description, ""},
+  {description, "Cowboy GET echo example."},
   {vsn, "1"},
   {registered, []},
   {applications, [
                   kernel,
-                  stdlib
-                 ]},
+                  stdlib,
+                  cowboy
+  ]},
   {mod, { cowboy_eunit_app, []}},
   {env, []}
  ]}.

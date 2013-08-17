@@ -21,3 +21,4 @@
     $ ./rebar -vvv compile
     $ ./rebar list-deps             # Error
     $ ./rebar get-deps
+    $ ./rebar compile
