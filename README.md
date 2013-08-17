@@ -7,3 +7,5 @@
     $ ./rebar -h
     $ ./rebar -c
     $ ./rebar list-template      # Get template list
+
+    $ ./rebar create-app appid=cowboy_eunit
