@@ -9,3 +9,4 @@
     $ ./rebar list-template      # Get template list
 
     $ ./rebar create-app appid=cowboy_eunit
+    $ ./rebar compile
