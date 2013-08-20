@@ -34,6 +34,23 @@ ascii_subtest() ->
         ?assertMatch(<<"test">>, Body),
         ?assertMatch(200, Status)
     ].
+
+raw_request_subtest() ->
+    Data = ["GET /?echo=1234 HTTP/1.0\r\n",
+        "Host: localhost\r\n\r\n"],
+
+    {ok, Client1} = cowboy_client:init([]),
+    {ok, Client2} = cowboy_client:connect(ranch_tcp, "localhost", 8080, Client1),
+    {ok, Client3} = cowboy_client:raw_request(Data, Client2),
+    {ok, 200, Headers, Client4} = cowboy_client:response(Client3),
+    {ok, Body, _Client5} = cowboy_client:response_body(Client4),
+
+    ContentLength = proplists:get_value(<<"content-length">>, Headers),
+    [
+        ?assertMatch(<<"4">>, ContentLength),
+        ?assertMatch(<<"1234">>, Body)
+    ].
+
 utf8_subtest() ->
     RequestHeaders = [{<<"connection">>, <<"keep-alive">>}],
     {ok, Client1} = cowboy_client:init([]),
@@ -57,7 +74,7 @@ main_test_() ->
         setup,
         fun setup/0,
         fun cleanup/1,
-        {inparallel, [fun ascii_subtest/0, fun utf8_subtest/0]}
+        {inparallel, [fun ascii_subtest/0, fun utf8_subtest/0, fun raw_request_subtest/0]}
     }.
 
 parse_response(Client) ->
